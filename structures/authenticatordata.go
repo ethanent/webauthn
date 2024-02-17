@@ -68,7 +68,7 @@ func (a *AuthenticatorData) ED() bool {
 }
 
 func (a *AuthenticatorData) SignCount() int {
-	return int(binary.BigEndian.Uint32(a.d[33:38]))
+	return int(binary.BigEndian.Uint32(a.d[33:37]))
 }
 
 func (a *AuthenticatorData) Flag(i int) bool {
