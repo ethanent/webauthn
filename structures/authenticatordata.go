@@ -29,12 +29,12 @@ func (a *AuthenticatorData) String() string {
 		1: %t
 		2 (UV): %t
 		3 (BE): %t
-		4: %t
+		4 (BS): %t
 		5: %t
 		6 (AT): %t
 		7 (ED): %t
 	SignCount: %d
-}`, a.RPIDHash(), a.UP(), a.Flag(1), a.UV(), a.BE(), a.Flag(4), a.Flag(5), a.AT(), a.ED(), a.SignCount())
+}`, a.RPIDHash(), a.UP(), a.Flag(1), a.UV(), a.BE(), a.BS(), a.Flag(5), a.AT(), a.ED(), a.SignCount())
 }
 
 // RPIDHash is the SHA256 hash of the Relying Party's ID.
