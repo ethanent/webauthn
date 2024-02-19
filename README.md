@@ -6,6 +6,7 @@ WebAuthn parsing and verification library
 ## About
 
 This is a flexible, lower-level library for dealing with WebAuthn data
-generated during credential registration and assertion.
+structures generated during credential registration and assertion.
 
-You may find that some functionality you need is missing! It is open to PRs. Note that this library is currently very much in a pre-1.0 state.
+You may find that some functionality you need is missing! The library is open
+to PRs. Note that this library is currently very much in a pre-1.0 state.
