@@ -52,9 +52,14 @@ func (a *AuthenticatorData) UV() bool {
 	return a.Flag(2)
 }
 
-// BE indicates whether the credential is backup eligible.
+// BE indicates whether the credential source is backup eligible.
 func (a *AuthenticatorData) BE() bool {
 	return a.Flag(3)
+}
+
+// BS indicates whether the credential source is backed up.
+func (a *AuthenticatorData) BS() bool {
+	return a.Flag(4)
 }
 
 // AT indicates whether authenticator data is included.
