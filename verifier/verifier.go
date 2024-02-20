@@ -37,9 +37,8 @@ func NewVerifier(pub any, algorithmValue int, rpID string) (*Verifier, error) {
 	if err := alg.CheckKeyType(pub); err != nil {
 		return nil, fmt.Errorf("while validating public key for alg %d: %w", alg.Value(), err)
 	}
-	rpIDHash := sha256.Sum256([]byte(rpID))
 	return &Verifier{
-		rpIDHash: rpIDHash[:],
+		rpIDHash: structures.RPIDHash(rpID),
 		alg:      alg,
 		key:      pub,
 	}, nil

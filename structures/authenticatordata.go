@@ -1,6 +1,7 @@
 package structures
 
 import (
+	"crypto/sha256"
 	"encoding/binary"
 	"errors"
 	"fmt"
@@ -78,4 +79,11 @@ func (a *AuthenticatorData) SignCount() int {
 
 func (a *AuthenticatorData) Flag(i int) bool {
 	return (a.d[32]>>i)&0x01 == 1
+}
+
+// RPIDHash returns an RPIDHash for the given RP ID. This may be used when
+// comparing AuthenticatorData RPIDHash to a known RP ID.
+func RPIDHash(rpID string) []byte {
+	rpIDHash := sha256.Sum256([]byte(rpID))
+	return rpIDHash[:]
 }
