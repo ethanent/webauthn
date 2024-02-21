@@ -7,7 +7,7 @@ import (
 	"fmt"
 )
 
-// AuthenticatorData contains and allows reading of authenticator data.
+// AuthenticatorData contains and parses Authenticator Data.
 // See: https://www.w3.org/TR/webauthn-2/#authenticator-data
 type AuthenticatorData struct {
 	d []byte
@@ -17,9 +17,13 @@ func NewAuthenticatorData(d []byte) (*AuthenticatorData, error) {
 	if len(d) < 37 {
 		return nil, errors.New("invalid AuthenticatorData")
 	}
-	return &AuthenticatorData{
+	ad := &AuthenticatorData{
 		d: d,
-	}, nil
+	}
+	if ad.AT() && len(d) < 55 {
+		return nil, errors.New("invalid AuthenticatorData: missing Attested Credential Data")
+	}
+	return ad, nil
 }
 
 func (a *AuthenticatorData) String() string {
@@ -63,7 +67,7 @@ func (a *AuthenticatorData) BS() bool {
 	return a.Flag(4)
 }
 
-// AT indicates whether authenticator data is included.
+// AT indicates whether Attested Credential Data is included.
 func (a *AuthenticatorData) AT() bool {
 	return a.Flag(6)
 }
