@@ -8,7 +8,10 @@ WebAuthn data structures and verification library
 This is a flexible, unopinionated library for dealing with WebAuthn data
 structures generated during credential registration and assertion.
 
-Note that this library is currently in a pre-1.0 state.
+Note that:
+1. This library is currently in a pre-1.0 state.
+2. Because this library provides low-level functionality, be sure you know what
+you're doing when using it.
 
 ## Contributions
 
