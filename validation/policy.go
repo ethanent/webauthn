@@ -85,7 +85,9 @@ func (r *Policy) CheckAD(ad *structures.AuthenticatorData, lastSignCount int) er
 
 // CheckCD confirms that the ClientData is in line with the RPOptions and
 // partially validates it.
-func (r *Policy) CheckCD(cd *structures.ClientData, challenge []byte, isAttestation bool) error {
+//
+// Note that validating the Challenge is still required.
+func (r *Policy) CheckCD(cd *structures.ClientData, isAttestation bool) error {
 	r.ensureInitialized()
 	expectType := "webauthn.get"
 	if isAttestation {
@@ -93,9 +95,6 @@ func (r *Policy) CheckCD(cd *structures.ClientData, challenge []byte, isAttestat
 	}
 	if cd.Type != expectType {
 		return fmt.Errorf("ClientData.Type is '%s', expected '%s'", cd.Type, expectType)
-	}
-	if !bytes.Equal(cd.Challenge, challenge) {
-		return errors.New("ClientData.Challenge is not correct")
 	}
 	if _, originOK := r.permittedOrigins[cd.Origin]; !originOK {
 		return errors.New("ClientData.Origin is not an expected origin")
