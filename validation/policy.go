@@ -43,22 +43,17 @@ func (r *Policy) ensureInitialized() {
 	r.mux.RUnlock()
 	r.mux.Lock()
 	defer r.mux.Unlock()
-	if r.rpIDHash == nil {
-		h := sha256.Sum256([]byte(r.RPID))
-		r.rpIDHash = h[:]
+	rpIDHash := sha256.Sum256([]byte(r.RPID))
+	r.rpIDHash = rpIDHash[:]
+	r.permittedOrigins = map[string]struct{}{}
+	for _, o := range r.PermitOrigins {
+		r.permittedOrigins[o] = struct{}{}
 	}
-	if r.permittedOrigins == nil {
-		r.permittedOrigins = map[string]struct{}{}
-		for _, o := range r.PermitOrigins {
-			r.permittedOrigins[o] = struct{}{}
-		}
+	r.permittedTopOrigins = map[string]struct{}{}
+	for _, o := range r.PermitTopOrigins {
+		r.permittedTopOrigins[o] = struct{}{}
 	}
-	if r.permittedTopOrigins == nil {
-		r.permittedTopOrigins = map[string]struct{}{}
-		for _, o := range r.PermitTopOrigins {
-			r.permittedTopOrigins[o] = struct{}{}
-		}
-	}
+	r.initialized = true
 }
 
 // CheckCredentialID confirms that the credential ID is valid.
