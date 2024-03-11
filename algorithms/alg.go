@@ -5,6 +5,7 @@ import (
 )
 
 var ErrUnsupportedKeyType = errors.New("the type of key provided is not supported by the algorithm")
+var ErrVerificationFailed = errors.New("the signature could not be verified using the internally held key")
 
 // COSEAlgorithm implementers provide functions for using public keys to verify
 // data signed using standard COSE algorithms.
@@ -20,8 +21,9 @@ type COSEAlgorithm interface {
 	CheckKeyType(key any) error
 
 	// Verify uses the public key to perform a verification of the message data
-	// using sig, returning whether the verification succeeded.
-	Verify(key any, message, sig []byte) (bool, error)
+	// using sig, returning an error if the key type is incorrect or the
+	// verification failed.
+	Verify(key any, message, sig []byte) error
 }
 
 var algs = []COSEAlgorithm{

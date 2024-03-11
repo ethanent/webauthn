@@ -46,13 +46,13 @@ func (v *Verifier) Alg() int {
 
 // verifyMessage uses the internally held public key to verify the message
 // using sig.
-func (v *Verifier) verifyMessage(message, sig []byte) (bool, error) {
+func (v *Verifier) verifyMessage(message, sig []byte) error {
 	return v.alg.Verify(v.key, message, sig)
 }
 
 // VerifyAssertionResponse confirms whether the internally held key verifies
 // the provided raw Authenticator Data and ClientDataJSON using sig.
-func (v *Verifier) VerifyAssertionResponse(authenticatorData, clientDataJSON, sig []byte) (bool, error) {
+func (v *Verifier) VerifyAssertionResponse(authenticatorData, clientDataJSON, sig []byte) error {
 	clientDataJSONHash := sha256.Sum256(clientDataJSON)
 	d := authenticatorData
 	d = append(d, clientDataJSONHash[:]...)
