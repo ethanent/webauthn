@@ -5,6 +5,7 @@ import (
 	"crypto/sha256"
 	"errors"
 	"fmt"
+	"sync"
 
 	"github.com/ethanent/webauthn/structures"
 )
@@ -25,12 +26,23 @@ type Policy struct {
 	PermitCrossOrigin bool
 	RequireUV         bool
 
+	mux sync.RWMutex
+
+	initialized         bool
 	rpIDHash            []byte
 	permittedOrigins    map[string]struct{}
 	permittedTopOrigins map[string]struct{}
 }
 
 func (r *Policy) ensureInitialized() {
+	r.mux.RLock()
+	if r.initialized {
+		r.mux.RUnlock()
+		return
+	}
+	r.mux.RUnlock()
+	r.mux.Lock()
+	defer r.mux.Unlock()
 	if r.rpIDHash == nil {
 		h := sha256.Sum256([]byte(r.RPID))
 		r.rpIDHash = h[:]
